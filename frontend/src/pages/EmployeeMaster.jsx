@@ -12,7 +12,7 @@ import {
     CheckCircle2, 
     AlertCircle, 
     UserCog,
-    IdCard,
+    Contact,
     Key,
     UserMinus,
     ExternalLink,
@@ -122,7 +122,7 @@ const EmployeeMaster = () => {
             {/* Registry Table */}
             <div className="app-card app-card-table shadow-sm mb-4 overflow-hidden border-0">
                 <div className="app-card-header p-4 border-bottom bg-white d-flex justify-content-between align-items-center">
-                    <h4 className="app-card-title mb-0 d-flex align-items-center"><IdCard size={20} className="me-2 text-muted" />Personnel Master Index</h4>
+                    <h4 className="app-card-title mb-0 d-flex align-items-center"><Contact size={20} className="me-2 text-muted" />Personnel Master Index</h4>
                     <div className="d-flex gap-2">
                          <div className="search-box position-relative">
                             <Search size={16} className="position-absolute translate-middle-y top-50 ms-3 text-muted" />
@@ -166,7 +166,7 @@ const EmployeeMaster = () => {
                                     <td>{getStatusBadge(emp.status)}</td>
                                     <td className="text-end px-4 py-3">
                                         <div className="btn-group shadow-sm rounded-pill">
-                                            <button className="btn btn-sm btn-action btn-view" title="Detailed Intel" data-bs-toggle="modal" data-bs-target="#viewEmployeeModal" onClick={() => setSelectedEmployee(emp)}><IdCard size={16} /></button>
+                                            <button className="btn btn-sm btn-action btn-view" title="Detailed Intel" data-bs-toggle="modal" data-bs-target="#viewEmployeeModal" onClick={() => setSelectedEmployee(emp)}><Contact size={16} /></button>
                                             <button className="btn btn-sm btn-action btn-edit" title="Modify Record" data-bs-toggle="modal" data-bs-target="#editEmployeeModal" onClick={() => setSelectedEmployee(emp)}><UserCog size={16} /></button>
                                             <button className="btn btn-sm btn-action btn-warning" title="Security Reset" data-bs-toggle="modal" data-bs-target="#resetPasswordModal" onClick={() => setSelectedEmployee(emp)}><Key size={16} /></button>
                                             <button className="btn btn-sm btn-action btn-delete text-danger" title="Expunge Member" onClick={() => handleDelete(emp.id)}><UserMinus size={16} /></button>
