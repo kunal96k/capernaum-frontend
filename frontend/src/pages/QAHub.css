@@ -1,0 +1,111 @@
+/* QA Hub Premium Styles */
+
+.qa-hub-wrapper {
+    animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Audio Player */
+.audio-player-premium {
+    background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+    border: 1px solid rgba(0,0,0,0.05) !important;
+    position: relative;
+    z-index: 1;
+}
+
+.audio-player-premium::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at top right, rgba(155, 125, 61, 0.05), transparent);
+    z-index: -1;
+}
+
+.opacity-05 {
+    opacity: 0.05;
+}
+
+/* Checklist items */
+.checklist-container div {
+    transition: all 0.2s ease;
+    cursor: default;
+}
+
+.checklist-container div:hover {
+    border-color: var(--capernaum-gold) !important;
+    background-color: rgba(155, 125, 61, 0.02);
+    transform: translateX(5px);
+}
+
+/* Feedback Section */
+.feedback-box {
+    background: #fff;
+    border: 1px solid rgba(0,0,0,0.05);
+    border-left: 4px solid var(--capernaum-gold);
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
+}
+
+/* Utility for modal height */
+.modal-body {
+    scrollbar-width: thin;
+    scrollbar-color: #cbd5e1 #f8fafc;
+}
+
+.modal-body::-webkit-scrollbar {
+    width: 6px;
+}
+
+.modal-body::-webkit-scrollbar-track {
+    background: #f8fafc;
+}
+
+.modal-body::-webkit-scrollbar-thumb {
+    background-color: #cbd5e1;
+    border-radius: 20px;
+}
+
+/* Extra small text refinements */
+.extra-small {
+    font-size: 0.7rem;
+    letter-spacing: 0.5px;
+}
+
+.letter-spacing-2 {
+    letter-spacing: 2px;
+}
+
+/* Modal specific tweaks */
+#qaEvaluationModal .modal-content {
+    border-radius: 1.25rem;
+}
+
+#qaEvaluationModal .modal-header {
+    border-radius: 1.25rem 1.25rem 0 0;
+}
+
+/* Hover effects */
+.hov-scale:hover {
+    transform: scale(1.02);
+    transition: transform 0.2s ease;
+}
+
+/* Score Variance Box */
+.bg-soft-info {
+    background-color: #e0f2fe !important;
+    color: #0369a1 !important;
+}
+
+.shadow-xs {
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+}
+
+.pointer {
+    cursor: pointer;
+}

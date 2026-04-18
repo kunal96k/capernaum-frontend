@@ -22,6 +22,7 @@ import {
     Trash2,
     Activity
 } from 'lucide-react';
+import './QAHub.css';
 
 const QAHub = () => {
     const [activeTab, setActiveTab] = useState('call-logs-tab');
@@ -223,8 +224,8 @@ const QAHub = () => {
             {/* MODALS */}
             {/* Modal: Deep Audit & Checks */}
             <div className="modal fade" id="qaEvaluationModal" tabIndex="-1" aria-hidden="true">
-                <div className="modal-dialog modal-lg modal-dialog-centered">
-                    <div className="modal-content border-0 shadow-lg overflow-hidden">
+                <div className="modal-dialog modal-75 modal-dialog-centered modal-dialog-scrollable">
+                    <div className="modal-content border-0 shadow-lg">
                         <div className="modal-header bg-dark text-white border-0 p-4">
                             <h5 className="modal-title fw-bold d-flex align-items-center"><Headphones size={20} className="me-2 text-warning" />Strategic Quality Audit</h5>
                             <button type="button" className="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -232,14 +233,14 @@ const QAHub = () => {
                         <div className="modal-body p-0 bg-white">
                             {selectedLog && (
                                 <>
-                                    <div className="p-4 bg-light border-bottom d-flex align-items-center">
+                                    <div className="px-4 py-3 bg-light border-bottom d-flex align-items-center sticky-top" style={{ zIndex: 10 }}>
                                         <div className="me-4 pe-4 border-end">
                                             <div className="extra-small text-muted text-uppercase fw-bold">Agent</div>
-                                            <div className="fw-bold fs-5 text-dark">{selectedLog.name}</div>
+                                            <div className="fw-bold fs-6 text-dark">{selectedLog.name}</div>
                                         </div>
-                                        <div className="me-4 pe-4 border-end">
+                                        <div className="me-4 pe-4 border-end d-none d-md-block">
                                             <div className="extra-small text-muted text-uppercase fw-bold">Enterprise Client</div>
-                                            <div className="fw-bold text-dark">{selectedLog.client}</div>
+                                            <div className="fw-bold text-dark small">{selectedLog.client}</div>
                                         </div>
                                         <div className="ms-auto text-end">
                                             <div className="extra-small text-muted text-uppercase fw-bold">Quality Pulse</div>
@@ -248,28 +249,33 @@ const QAHub = () => {
                                     </div>
 
                                     <div className="p-4">
-                                        <div className="audio-player-premium mb-4 p-4 border rounded-4 shadow-sm bg-white overflow-hidden position-relative">
-                                            <div className="position-absolute top-0 start-0 h-100 bg-primary opacity-05" style={{width: '60%'}}></div>
+                                        <div className="audio-player-premium mb-4 p-4 border rounded-4 shadow-sm bg-white overflow-hidden position-relative hov-scale">
+                                            <div className="position-absolute top-0 start-0 h-100 bg-primary opacity-05" style={{width: '100%', background: 'linear-gradient(90deg, #9B7D3D1a 0%, transparent 100%)'}}></div>
                                             <div className="row align-items-center position-relative">
                                                 <div className="col-auto">
                                                     <button className="btn btn-primary rounded-circle shadow p-3" style={{width: 56, height: 56, background: '#9B7D3D', border: 'none'}}><Play size={24} fill="white" /></button>
                                                 </div>
                                                 <div className="col">
-                                                    <div className="fw-bold text-dark mb-1">RECORDING_STREAM_SEC_{selectedLog.id}.wav</div>
+                                                    <div className="fw-bold text-dark mb-1 d-flex align-items-center gap-2">
+                                                        RECORDING_STREAM_SEC_{selectedLog.id}.wav
+                                                        <span className="badge bg-soft-primary text-primary extra-small px-2">ENCRYPTED</span>
+                                                    </div>
                                                     <div className="d-flex align-items-center gap-3">
-                                                       <span className="badge bg-soft-primary text-primary extra-small">ENCRYPTED</span>
                                                        <span className="text-muted extra-small"><Clock size={12} className="me-1" /> {selectedLog.duration} session duration</span>
                                                     </div>
                                                 </div>
-                                                <div className="col-auto text-end">
+                                                <div className="col-auto text-end d-none d-sm-block">
                                                     <span className="font-monospace text-primary fw-bold" style={{fontSize: '0.8rem'}}>02:14 / {selectedLog.duration}</span>
                                                 </div>
                                             </div>
                                         </div>
 
                                         <div className="row g-4">
-                                            <div className="col-md-7">
-                                                <h6 className="fw-bold mb-3 d-flex align-items-center"><ShieldCheck size={18} className="me-2 text-primary" /> Evaluation Checksheet</h6>
+                                            <div className="col-lg-7">
+                                                <div className="d-flex align-items-center justify-content-between mb-3">
+                                                    <h6 className="fw-bold mb-0 d-flex align-items-center"><ShieldCheck size={18} className="me-2 text-primary" /> Evaluation Checksheet</h6>
+                                                    <span className="badge bg-light text-dark extra-small border">AUDIT COMPLIANCE</span>
+                                                </div>
                                                 <div className="checklist-container">
                                                     {[
                                                        { label: 'Mandatory Greeting Protocol', status: 'Passed' },
@@ -278,27 +284,35 @@ const QAHub = () => {
                                                        { label: 'Escalation Threshold Monitoring', status: 'Review' },
                                                        { label: 'Global Compliance Adherence', status: 'Passed' }
                                                     ].map((check, i) => (
-                                                        <div className="d-flex justify-content-between align-items-center p-3 mb-2 rounded-3 border bg-white hov-bg-light transition-all" key={i}>
+                                                        <div className="d-flex justify-content-between align-items-center p-3 mb-2 rounded-3 border bg-white shadow-sm transition-all" key={i}>
                                                             <span className="small fw-semibold text-dark">{check.label}</span>
-                                                            {check.status === 'Passed' ? <CheckCircle2 className="text-success" size={18} /> : <AlertCircle className="text-warning" size={18} />}
+                                                            <div className="d-flex align-items-center gap-2">
+                                                                {check.status === 'Passed' ? 
+                                                                    <div className="d-flex align-items-center gap-1 text-success extra-small fw-bold">PASSED <CheckCircle2 size={18} /></div> : 
+                                                                    <div className="d-flex align-items-center gap-1 text-warning extra-small fw-bold">REVIEW <AlertCircle size={18} /></div>
+                                                                }
+                                                            </div>
                                                         </div>
                                                     ))}
                                                 </div>
                                             </div>
-                                            <div className="col-md-5">
+                                            <div className="col-lg-5">
                                                 <h6 className="fw-bold mb-3 d-flex align-items-center"><MessageSquare size={18} className="me-2 text-primary" /> Strategic Feedback</h6>
-                                                <div className="p-4 bg-light rounded-4 border-start border-4 border-warning shadow-inner">
-                                                    <p className="small text-dark italic mb-3">"Representative demonstrated high empathy and technical accuracy. Closing script requires additional refinement to align with Q2 customer satisfaction objectives."</p>
-                                                    <div className="d-flex align-items-center">
-                                                        <div className="user-avatar-sm rounded-circle bg-secondary text-white d-flex align-items-center justify-content-center me-2" style={{width: 24, height: 24, fontSize: '0.6rem'}}>QA</div>
-                                                        <span className="extra-small fw-bold text-muted">Audited by {selectedLog.evaluator}</span>
+                                                <div className="feedback-box p-4 rounded-4 shadow-sm mb-4">
+                                                    <p className="small text-dark italic mb-3 lh-base" style={{ minHeight: '120px' }}>"Representative demonstrated high empathy and technical accuracy. Closing script requires additional refinement to align with Q2 customer satisfaction objectives. Emphasize active listening during the transition phase."</p>
+                                                    <div className="d-flex align-items-center pt-3 border-top">
+                                                        <div className="user-avatar-sm rounded-circle bg-dark text-white d-flex align-items-center justify-content-center me-2" style={{width: 32, height: 32, fontSize: '0.7rem'}}>QA</div>
+                                                        <div className="flex-grow-1">
+                                                            <div className="extra-small fw-bold text-dark">Audited by {selectedLog.evaluator}</div>
+                                                            <div className="text-muted" style={{fontSize: '0.6rem'}}>Chief Compliance Officer</div>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                                <div className="mt-4">
-                                                   <button className="btn btn-dark w-100 py-2 fw-bold small shadow-sm" onClick={() => {
+                                                <div className="mt-auto">
+                                                   <button className="btn btn-dark w-100 py-3 fw-bold small shadow-sm hover-lift" onClick={() => {
                                                        setLogs(prev => prev.map(l => l.id === selectedLog.id ? {...l, status: 'Passed'} : l));
                                                        alert('Evaluation Certified Successfully');
-                                                   }} data-bs-dismiss="modal"><Award size={14} className="me-2" /> Certify Evaluation</button>
+                                                   }} data-bs-dismiss="modal"><Award size={16} className="me-2" /> Certify Evaluation</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -306,8 +320,8 @@ const QAHub = () => {
                                 </>
                             )}
                         </div>
-                        <div className="modal-footer border-0 p-4 bg-light">
-                            <button type="button" className="btn btn-secondary px-4 fw-bold shadow-sm" data-bs-dismiss="modal">Close Insight</button>
+                        <div className="modal-footer border-0 p-4 bg-light d-flex justify-content-between">
+                            <button type="button" className="btn btn-outline-secondary px-4 fw-bold shadow-sm" data-bs-dismiss="modal">Close Insight</button>
                             <button type="button" className="btn btn-primary px-4 fw-bold shadow-lg" style={{background: '#9B7D3D', border: 'none'}} data-bs-toggle="modal" data-bs-target="#coachingModal">
                                 <Calendar size={18} className="me-2" />Schedule Coaching Loop
                             </button>
@@ -319,7 +333,7 @@ const QAHub = () => {
             {/* Modal: Score Adjustment */}
             {/* AUDIO PLAYER MODAL */}
             <div className="modal fade" id="audioPlayerModal" tabIndex="-1" aria-hidden="true">
-                <div className="modal-dialog modal-lg modal-dialog-centered">
+                <div className="modal-dialog modal-75 modal-dialog-centered">
                     <div className="modal-content border-0 shadow-lg overflow-hidden">
                         <div className="modal-header bg-dark text-white p-4 border-0">
                             <h5 className="modal-title fw-bold d-flex align-items-center"><Play size={20} className="me-2 text-primary" />Forensic Audio Stream Interface</h5>
@@ -361,7 +375,7 @@ const QAHub = () => {
 
             {/* EVALUATION CHECKSHEET MODAL */}
             <div className="modal fade" id="evaluateModal" tabIndex="-1" aria-hidden="true">
-                <div className="modal-dialog modal-xl modal-dialog-centered">
+                <div className="modal-dialog modal-75 modal-dialog-centered">
                     <div className="modal-content border-0 shadow-lg overflow-hidden">
                         <div className="modal-header bg-primary text-white p-4">
                             <h5 className="modal-title fw-bold d-flex align-items-center"><List size={20} className="me-2" />Quality Compliance Checksheet</h5>
@@ -413,7 +427,7 @@ const QAHub = () => {
 
             {/* COACHING LOOP MODAL */}
             <div className="modal fade" id="coachingModal" tabIndex="-1" aria-hidden="true">
-                <div className="modal-dialog modal-md modal-dialog-centered">
+                <div className="modal-dialog modal-lg modal-dialog-centered">
                     <div className="modal-content border-0 shadow-lg overflow-hidden">
                         <div className="modal-header bg-dark text-white p-4">
                             <h5 className="modal-title fw-bold d-flex align-items-center"><MessageSquare size={20} className="me-2 text-warning" />Initialize Coaching Feedback Loop</h5>
@@ -464,7 +478,7 @@ const QAHub = () => {
 
             {/* CALIBRATE SCORE MODAL */}
             <div className="modal fade" id="editScoreModal" tabIndex="-1" aria-hidden="true">
-                <div className="modal-dialog modal-dialog-centered" style={{maxWidth: '450px'}}>
+                <div className="modal-dialog modal-lg modal-dialog-centered">
                     <div className="modal-content border-0 shadow-lg overflow-hidden">
                         <div className="modal-header bg-primary text-white p-4 border-0">
                             <h5 className="modal-title fw-bold d-flex align-items-center"><Award size={20} className="me-2" />Calibrate Evaluation Score</h5>

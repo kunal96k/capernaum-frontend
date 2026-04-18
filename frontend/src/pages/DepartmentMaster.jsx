@@ -1,193 +1,265 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { 
+  Plus, 
+  Search, 
+  Filter, 
+  Download, 
+  MoreHorizontal, 
+  Edit2, 
+  Trash2, 
+  Building2, 
+  Users, 
+  Wallet 
+} from 'lucide-react';
+import './DepartmentMaster.css';
+
+const API_BASE_URL = 'http://localhost:8081/api/departments';
 
 const DepartmentMaster = () => {
-    const [selectedDept, setSelectedDept] = useState(null);
-    const [editMode, setEditMode] = useState(false);
+  const [departments, setDepartments] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [currentDept, setCurrentDept] = useState({
+    name: '',
+    head: '',
+    staffCount: 0,
+    budget: 0,
+    status: 'Active'
+  });
 
-    const [departments, setDepartments] = useState([
-        { code: 'DEPT-CALL-01', name: 'Call Center - Inbound', head: 'Rajesh Kumar', staff: 45, budget: '₹12.5L', status: 'Active' },
-        { code: 'DEPT-CALL-02', name: 'Call Center - Outbound', head: 'Priya Sharma', staff: 38, budget: '₹11.0L', status: 'Active' },
-        { code: 'DEPT-QA-01', name: 'Quality Assurance', head: 'Vikram Singh', staff: 12, budget: '₹5.2L', status: 'Active' },
-        { code: 'DEPT-BO-01', name: 'Back Office Operations', head: 'Neha Gupta', staff: 22, budget: '₹7.8L', status: 'Active' },
-        { code: 'DEPT-HR-01', name: 'Human Resources', head: 'Amit Patel', staff: 8, budget: '₹3.5L', status: 'Active' },
-        { code: 'DEPT-IT-01', name: 'Information Technology', head: 'Anaya Singh', staff: 15, budget: '₹6.2L', status: 'Active' },
-    ]);
+  useEffect(() => {
+    fetchDepartments();
+  }, []);
 
-    const handleSaveDept = (e) => {
-        e.preventDefault();
-        const formData = new FormData(e.target);
-        const name = formData.get('name');
-        const head = formData.get('head');
-        const budget = '₹' + formData.get('budget') + 'L';
-        const status = formData.get('status').split(' / ')[0];
+  const fetchDepartments = async () => {
+    try {
+      setLoading(true);
+      const response = await fetch(API_BASE_URL);
+      if (!response.ok) throw new Error('Failed to fetch departments');
+      const data = await response.ok ? await response.json() : [];
+      setDepartments(Array.isArray(data) ? data : []);
+      setError(null);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-        if (selectedDept && editMode) {
-            setDepartments(departments.map(d => d.code === selectedDept.code ? { ...d, name, head, budget, status } : d));
-            alert('Unit Configuration Propagated Successfully');
-        } else {
-            const newDept = {
-                code: 'DEPT-' + Math.random().toString(36).substring(7).toUpperCase(),
-                name: name,
-                head: head,
-                staff: 0,
-                budget: budget,
-                status: status
-            };
-            setDepartments([newDept, ...departments]);
-            alert('New Organizational Unit Provisioned');
-        }
-    };
+  const handleSave = async (e) => {
+    e.preventDefault();
+    try {
+      const method = currentDept.id ? 'PUT' : 'POST';
+      const url = currentDept.id ? `${API_BASE_URL}/${currentDept.id}` : API_BASE_URL;
+      
+      const response = await fetch(url, {
+        method,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(currentDept)
+      });
 
-    const handleDeleteDept = (code) => {
-        if (confirm(`Permanently decommission ${code}?`)) {
-            setDepartments(departments.filter(d => d.code !== code));
-            alert('Unit Decommissioned from Corporate Directory');
-        }
-    };
+      if (!response.ok) throw new Error('Failed to save department');
+      
+      await fetchDepartments();
+      setIsModalOpen(false);
+      resetForm();
+    } catch (err) {
+      alert(err.message);
+    }
+  };
 
-    const openDeptModal = (dept, mode) => {
-        setSelectedDept(dept);
-        setEditMode(mode === 'edit');
-    };
+  const handleDelete = async (id) => {
+    if (!window.confirm('Are you sure you want to delete this department?')) return;
+    try {
+      const response = await fetch(`${API_BASE_URL}/${id}`, { method: 'DELETE' });
+      if (!response.ok) throw new Error('Failed to delete department');
+      fetchDepartments();
+    } catch (err) {
+      alert(err.message);
+    }
+  };
 
-    return (
-        <>
-            <div className="row g-3 mb-4 align-items-center justify-content-between">
-                <div className="col-auto">
-                    <h1 className="app-page-title mb-0">Departmental Management Console</h1>
-                    <p className="text-muted small mb-0">Organize organizational units and allocate operational resources.</p>
-                </div>
-                <div className="col-auto">
-                    <button className="btn app-btn-primary shadow-sm" data-bs-toggle="modal" data-bs-target="#deptModal" onClick={() => openDeptModal(null, 'add')}>
-                        <i className="fa-solid fa-plus me-2"></i>Create New Department
-                    </button>
-                </div>
+  const resetForm = () => {
+    setCurrentDept({ name: '', head: '', staffCount: 0, budget: 0, status: 'Active' });
+  };
+
+  if (loading) return <div className="loading">Loading Departments...</div>;
+
+  return (
+    <div className="dept-container">
+      <div className="dept-header">
+        <div className="header-title">
+          <h1>Department Master</h1>
+          <p>Organize and manage your organizational structure</p>
+        </div>
+        <div className="header-actions">
+          <button className="btn-secondary">
+            <Download size={18} />
+            Export
+          </button>
+          <button className="btn-primary" onClick={() => { resetForm(); setIsModalOpen(true); }}>
+            <Plus size={18} />
+            Add Department
+          </button>
+        </div>
+      </div>
+
+      <div className="stats-grid">
+        <div className="stat-card">
+          <div className="stat-icon purple">
+            <Building2 size={24} />
+          </div>
+          <div className="stat-info">
+            <span className="stat-label">Total Departments</span>
+            <span className="stat-value">{departments.length}</span>
+          </div>
+        </div>
+        <div className="stat-card">
+          <div className="stat-icon blue">
+            <Users size={24} />
+          </div>
+          <div className="stat-info">
+            <span className="stat-label">Total Staff</span>
+            <span className="stat-value">
+              {departments.reduce((acc, curr) => acc + (curr.staffCount || 0), 0)}
+            </span>
+          </div>
+        </div>
+        <div className="stat-card">
+          <div className="stat-icon green">
+            <Wallet size={24} />
+          </div>
+          <div className="stat-info">
+            <span className="stat-label">Total Budget</span>
+            <span className="stat-value">
+              ₹{departments.reduce((acc, curr) => acc + (curr.budget || 0), 0).toLocaleString()}
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div className="table-container">
+        <div className="table-controls">
+          <div className="search-box">
+            <Search size={18} />
+            <input type="text" placeholder="Search departments..." />
+          </div>
+          <button className="btn-filter">
+            <Filter size={18} />
+            Filters
+          </button>
+        </div>
+
+        <table className="dept-table">
+          <thead>
+            <tr>
+              <th>Dept ID</th>
+              <th>Department Name</th>
+              <th>Head of Dept</th>
+              <th>Staff Count</th>
+              <th>Budget</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {departments.map((dept) => (
+              <tr key={dept.id}>
+                <td><span className="dept-code">{dept.code}</span></td>
+                <td>
+                  <div className="dept-name-cell">
+                    <div className="dept-avatar">{dept.name.charAt(0)}</div>
+                    {dept.name}
+                  </div>
+                </td>
+                <td>{dept.head}</td>
+                <td>{dept.staffCount}</td>
+                <td>₹{dept.budget?.toLocaleString()}</td>
+                <td>
+                  <span className={`status-badge ${dept.status?.toLowerCase()}`}>
+                    {dept.status}
+                  </span>
+                </td>
+                <td className="actions-cell">
+                  <button className="icon-btn" title="Edit" onClick={() => { setCurrentDept(dept); setIsModalOpen(true); }}>
+                    <Edit2 size={16} />
+                  </button>
+                  <button className="icon-btn delete" title="Delete" onClick={() => handleDelete(dept.id)}>
+                    <Trash2 size={16} />
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      {isModalOpen && (
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h2>{currentDept.id ? 'Edit' : 'Add'} Department</h2>
+              <button className="close-btn" onClick={() => setIsModalOpen(false)}>&times;</button>
             </div>
-
-            {/* Statistics Grid */}
-            <div className="row g-4 mb-4">
-                {[
-                    { label: 'Total Units', value: '8', meta: 'Operational', color: 'blue', icon: 'fa-sitemap' },
-                    { label: 'Staff Aggregation', value: '156', meta: 'Cross-functional', color: 'green', icon: 'fa-users-viewfinder' },
-                    { label: 'Resource Allocation', value: '₹45.2L', meta: 'Monthly Ceiling', color: 'orange', icon: 'fa-vault' },
-                    { label: 'Strategic Openings', value: '5', meta: 'Hiring Pipeline', color: 'red', icon: 'fa-user-plus' }
-                ].map((stat, idx) => (
-                    <div className="col-6 col-md-4 col-lg-3" key={idx}>
-                        <div className={`app-card app-card-stat shadow-sm h-100 border-left-${stat.color}`}>
-                            <div className="app-card-body p-3 p-lg-4">
-                                <h4 className="stats-type mb-1 text-uppercase small text-muted fw-bold">{stat.label}</h4>
-                                <div className={`stats-figure stats-${stat.color} fw-bold`} style={{fontSize: '1.6rem'}}>{stat.value}</div>
-                                <div className="stats-meta text-muted small italic">{stat.meta}</div>
-                            </div>
-                        </div>
-                    </div>
-                ))}
-            </div>
-
-            {/* Departments Table */}
-            <div className="app-card app-card-table shadow-sm mb-4">
-                <div className="app-card-header p-3 border-bottom d-flex justify-content-between align-items-center bg-light bg-opacity-10">
-                    <h4 className="app-card-title">Corporate Unit Directory</h4>
-                    <div className="search-box">
-                        <input type="text" className="form-control form-control-sm" placeholder="Filter units..." />
-                    </div>
+            <form onSubmit={handleSave}>
+              <div className="form-grid">
+                <div className="form-group">
+                  <label>Department Name</label>
+                  <input 
+                    type="text" 
+                    required 
+                    value={currentDept.name}
+                    onChange={(e) => setCurrentDept({...currentDept, name: e.target.value})}
+                  />
                 </div>
-                <div className="app-card-body p-0 table-responsive">
-                    <table className="table table-hover mb-0 app-table-hover">
-                        <thead className="table-light">
-                            <tr>
-                                <th className="px-3">Unit Code</th>
-                                <th>Nomenclature</th>
-                                <th>Executive Head</th>
-                                <th>Headcount</th>
-                                <th>Monthly Allocation</th>
-                                <th>Lifecycle</th>
-                                <th className="text-end px-3">Management</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {departments.map((dept, idx) => (
-                                <tr key={idx} className="transition-all hov-bg-light">
-                                    <td className="px-3" data-label="Code"><span className="badge bg-soft-secondary text-dark font-monospace border">{dept.code}</span></td>
-                                    <td className="fw-bold text-dark" data-label="Unit">{dept.name}</td>
-                                    <td data-label="Head">{dept.head}</td>
-                                    <td data-label="Staff"><span className="badge bg-soft-primary text-primary px-3">{dept.staff} Members</span></td>
-                                    <td className="fw-semibold text-dark" data-label="Budget">{dept.budget}</td>
-                                    <td data-label="Lifecycle"><span className={`badge ${dept.status === 'Active' ? 'bg-soft-success text-success' : 'bg-soft-warning text-warning'} border px-3`}>{dept.status.toUpperCase()}</span></td>
-                                    <td className="text-end px-3" data-label="Manage">
-                                        <div className="btn-group shadow-sm rounded-pill overflow-hidden border">
-                                            <button className="btn btn-sm btn-white text-muted hov-bg-primary hov-text-white border-0" title="Inspect Unit" data-bs-toggle="modal" data-bs-target="#deptModal" onClick={() => openDeptModal(dept, 'view')}><i className="fa-solid fa-binoculars"></i></button>
-                                            <button className="btn btn-sm btn-white text-muted hov-bg-dark hov-text-white border-0" title="Modify Configuration" data-bs-toggle="modal" data-bs-target="#deptModal" onClick={() => openDeptModal(dept, 'edit')}><i className="fa-solid fa-pen-ruler"></i></button>
-                                            <button className="btn btn-sm btn-white text-muted hov-bg-danger hov-text-white border-0 text-danger" title="Decommission Unit" onClick={() => handleDeleteDept(dept.code)}><i className="fa-solid fa-trash-can"></i></button>
-                                        </div>
-                                    </td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
+                <div className="form-group">
+                  <label>Head of Dept</label>
+                  <input 
+                    type="text" 
+                    required 
+                    value={currentDept.head}
+                    onChange={(e) => setCurrentDept({...currentDept, head: e.target.value})}
+                  />
                 </div>
-            </div>
-
-            {/* DEPARTMENT MODAL (Add/View/Edit) */}
-            <div className="modal fade" id="deptModal" tabIndex="-1" aria-hidden="true">
-                <div className="modal-dialog modal-lg modal-dialog-centered">
-                    <div className="modal-content border-0 shadow-lg overflow-hidden">
-                        <div className="modal-header bg-dark text-white p-4 border-0">
-                            <h5 className="modal-title fw-bold">
-                                {editMode ? <><i className="fa-solid fa-pen-to-square me-2"></i>Modify Unit Configuration</> : selectedDept ? <><i className="fa-solid fa-id-card me-2"></i>Unit Identity Insight</> : <><i className="fa-solid fa-plus me-2"></i>Provision New Unit</>}
-                            </h5>
-                            <button type="button" className="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div className="modal-body p-0">
-                            <form id="deptForm" onSubmit={handleSaveDept}>
-                                <div className="p-4 bg-light border-bottom text-center">
-                                    <h3 className="fw-bold mb-1 text-dark">{selectedDept?.name || 'Asset Nomenclature...'}</h3>
-                                    <span className="badge bg-primary px-4 py-2 rounded-pill shadow-sm">{selectedDept?.code || 'AUTO-ID'}</span>
-                                </div>
-                                <div className="p-4 bg-white italicized-labels">
-                                    <div className="row g-4">
-                                        <div className="col-md-6">
-                                            <label className="form-label small fw-bold text-muted text-uppercase mb-1" style={{fontSize: '0.65rem'}}>Unit Designation (Name)</label>
-                                            <input name="name" type="text" className="form-control" defaultValue={selectedDept?.name} readOnly={!editMode && selectedDept} required />
-                                        </div>
-                                        <div className="col-md-6">
-                                            <label className="form-label small fw-bold text-muted text-uppercase mb-1" style={{fontSize: '0.65rem'}}>Executive Authority (Head)</label>
-                                            <input name="head" type="text" className="form-control" defaultValue={selectedDept?.head} readOnly={!editMode && selectedDept} required />
-                                        </div>
-                                        <div className="col-md-6">
-                                            <label className="form-label small fw-bold text-muted text-uppercase mb-1" style={{fontSize: '0.65rem'}}>Resource Ceiling (Monthly Budget in L)</label>
-                                            <div className="input-group">
-                                                <span className="input-group-text bg-light border-right-0">₹</span>
-                                                <input name="budget" type="number" className="form-control" defaultValue={selectedDept?.budget.replace('₹', '').replace('L', '')} readOnly={!editMode && selectedDept} required />
-                                            </div>
-                                        </div>
-                                        <div className="col-md-6">
-                                            <label className="form-label small fw-bold text-muted text-uppercase mb-1" style={{fontSize: '0.65rem'}}>Operational Lifecycle</label>
-                                            <select name="status" className="form-select" defaultValue={selectedDept?.status} disabled={!editMode && selectedDept} required>
-                                                <option>Active / Operational</option>
-                                                <option>Maintenance / Suspended</option>
-                                                <option>Decommissioned</option>
-                                            </select>
-                                        </div>
-                                        <div className="col-12">
-                                            <label className="form-label small fw-bold text-muted text-uppercase mb-1" style={{fontSize: '0.65rem'}}>Mission Parameters (Description)</label>
-                                            <textarea className="form-control" rows="4" defaultValue="Department focused on strategic operations and client engagement optimization." readOnly={!editMode && selectedDept} style={{resize: 'none'}}></textarea>
-                                        </div>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                        <div className="modal-footer border-0 p-4 bg-light shadow-inner">
-                            <button type="button" className="btn btn-secondary px-4 fw-bold shadow-sm" data-bs-dismiss="modal">Abort Review</button>
-                            {(editMode || !selectedDept) && (
-                                <button type="submit" form="deptForm" className="btn btn-primary px-5 fw-bold shadow-sm" style={{background: '#9B7D3D', borderColor: '#9B7D3D'}} data-bs-dismiss="modal">Push Configuration</button>
-                            )}
-                        </div>
-                    </div>
+                <div className="form-group">
+                  <label>Staff Count</label>
+                  <input 
+                    type="number" 
+                    value={currentDept.staffCount}
+                    onChange={(e) => setCurrentDept({...currentDept, staffCount: parseInt(e.target.value)})}
+                  />
                 </div>
-            </div>
-        </>
-    );
+                <div className="form-group">
+                  <label>Budget (₹)</label>
+                  <input 
+                    type="number" 
+                    value={currentDept.budget}
+                    onChange={(e) => setCurrentDept({...currentDept, budget: parseFloat(e.target.value)})}
+                  />
+                </div>
+                <div className="form-group full-width">
+                  <label>Status</label>
+                  <select 
+                    value={currentDept.status}
+                    onChange={(e) => setCurrentDept({...currentDept, status: e.target.value})}
+                  >
+                    <option value="Active">Active</option>
+                    <option value="Inactive">Inactive</option>
+                    <option value="Under Review">Under Review</option>
+                  </select>
+                </div>
+              </div>
+              <div className="modal-footer">
+                <button type="button" className="btn-secondary" onClick={() => setIsModalOpen(false)}>Cancel</button>
+                <button type="submit" className="btn-primary">Save Department</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+    </div>
+  );
 };
 
 export default DepartmentMaster;

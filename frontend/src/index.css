@@ -44,6 +44,7 @@ body {
     .sidebar-collapsed .app-header {
         margin-left: 0 !important;
         width: 100% !important;
+        transition: all 0.3s ease;
     }
 
     .sidebar-collapsed .app-wrapper {
@@ -164,7 +165,7 @@ body {
 
     /* Mobile Table Optimization */
     .table thead {
-        display: none; /* Consider using data-labels if needed, but for now just compacting */
+        display: none;
     }
 
     .table tr {
@@ -222,4 +223,55 @@ body {
 
 .app-table-hover tr:hover {
     background-color: rgba(155, 125, 61, 0.02) !important;
+}
+
+/* Global Premium Modal Widths - Forced 75% for Enterprise Experience */
+@media (min-width: 992px) {
+    .modal-dialog.modal-lg, 
+    .modal-dialog.modal-xl, 
+    .modal-dialog.modal-75 {
+        min-width: 75% !important;
+        width: 75% !important;
+        max-width: 75% !important;
+        margin: 1.75rem auto !important;
+    }
+    
+    .modal-dialog.modal-85 {
+        min-width: 85% !important;
+        width: 85% !important;
+        max-width: 85% !important;
+        margin: 1.75rem auto !important;
+    }
+}
+
+.modal-content {
+    border-radius: 12px !important;
+    border: none !important;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25) !important;
+    background: #fff !important;
+    width: 100% !important;
+}
+
+.modal-header {
+    border-bottom: 1px solid rgba(0,0,0,0.05) !important;
+    padding: 1.5rem 2rem !important;
+}
+
+.modal-body {
+    padding: 0 !important; 
+}
+
+.modal-footer {
+    border-top: 1px solid rgba(0,0,0,0.05) !important;
+    background-color: #f8f9fa;
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: flex-end !important;
+    gap: 12px;
+    padding: 1.25rem 2rem !important;
+}
+
+/* Modal Inner Body Padding Utility */
+.modal-body-inner {
+    padding: 2rem !important;
 }

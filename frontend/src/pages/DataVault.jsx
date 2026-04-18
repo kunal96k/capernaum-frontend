@@ -279,7 +279,7 @@ const DataVault = () => {
 
             {/* VIEW MODAL */}
             <div className="modal fade" id="viewDetailModal" tabIndex="-1" aria-hidden="true">
-                <div className="modal-dialog modal-md modal-dialog-centered">
+                <div className="modal-dialog modal-lg modal-dialog-centered">
                     <div className="modal-content border-0 shadow-lg overflow-hidden">
                         <div className="modal-header bg-dark text-white p-4 border-0">
                             <h5 className="modal-title fw-bold d-flex align-items-center"><Info size={20} className="me-2 text-info" />Vault Asset Intel</h5>

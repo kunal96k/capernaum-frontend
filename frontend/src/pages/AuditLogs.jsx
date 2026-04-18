@@ -115,7 +115,7 @@ const AuditLogs = () => {
 
             {/* AUDIT DETAIL MODAL (VIEW) */}
             <div className="modal fade" id="auditDetailModal" tabIndex="-1" aria-hidden="true">
-                <div className="modal-dialog modal-dialog-centered">
+                <div className="modal-dialog modal-lg modal-dialog-centered">
                     <div className="modal-content border-0 shadow-lg overflow-hidden" style={{ borderRadius: 15 }}>
                         <div className="modal-header bg-dark text-white p-4 border-0">
                             <h5 className="modal-title fw-bold">
