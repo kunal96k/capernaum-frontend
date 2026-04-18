@@ -140,33 +140,33 @@ const QAHub = () => {
                                     </thead>
                                     <tbody>
                                         {logs.filter(l => l.name.toLowerCase().includes(searchTerm.toLowerCase()) || l.project.toLowerCase().includes(searchTerm.toLowerCase())).map((log) => (
-                                            <tr key={log.id}>
-                                                <td className="px-4">
+                                            <tr key={log.id} className="transition-all hov-bg-light">
+                                                <td className="px-4" data-label="Entity">
                                                     <div className="d-flex align-items-center">
-                                                        <div className="user-avatar-sm rounded-3 d-flex align-items-center justify-content-center me-3 bg-soft-primary text-primary fw-bold" style={{width: 38, height: 38, fontSize: '0.8rem'}}>{log.init}</div>
+                                                        <div className="user-avatar-sm rounded-3 d-flex align-items-center justify-content-center bg-soft-primary text-primary fw-bold me-3 border" style={{width: 38, height: 38, fontSize: '0.8rem'}}>{log.init}</div>
                                                         <div>
-                                                            <div className="fw-bold text-dark">{log.name}</div>
-                                                            <div className="extra-small text-muted font-monospace">{log.project}</div>
+                                                            <div className="fw-bold text-dark small">{log.name}</div>
+                                                            <div className="extra-small text-muted font-monospace" style={{fontSize: '0.6rem'}}>{log.project}</div>
                                                         </div>
                                                     </div>
                                                 </td>
-                                                <td>
+                                                <td data-label="Client/Eval">
                                                     <div className="fw-semibold text-dark small">{log.client}</div>
-                                                    <div className="extra-small text-muted">Evaluator: {log.evaluator}</div>
+                                                    <div className="extra-small text-muted" style={{fontSize: '0.65rem'}}>Evaluator: {log.evaluator}</div>
                                                 </td>
-                                                <td className="small text-muted">
-                                                    <div>{log.date}</div>
+                                                <td className="small text-muted" data-label="Date/Pulse">
+                                                    <div className="fw-bold">{log.date}</div>
                                                     <div className="extra-small opacity-75"><Clock size={10} className="me-1" /> {log.duration} duration</div>
                                                 </td>
-                                                <td>
+                                                <td data-label="Score">
                                                     <div className={`fw-bold fs-5 ${getScoreColor(log.score)}`}>{log.score}<small className="text-muted opacity-50" style={{fontSize: '0.6em'}}> /100</small></div>
                                                 </td>
-                                                <td>{getStatusBadge(log.status)}</td>
-                                                <td className="text-end px-4">
-                                                    <div className="btn-group shadow-sm rounded-pill">
-                                                        <button className="btn btn-sm btn-action btn-view" title="Deep Audit" data-bs-toggle="modal" data-bs-target="#qaEvaluationModal" onClick={() => setSelectedLog(log)}><Headphones size={16} /></button>
-                                                        <button className="btn btn-sm btn-action btn-edit" title="Adjust Parameters" data-bs-toggle="modal" data-bs-target="#editScoreModal" onClick={() => { setSelectedLog(log); setCalibrationScore(log.score); }}><Award size={16} /></button>
-                                                        <button className="btn btn-sm btn-action btn-delete text-danger" title="Purge Record" onClick={() => handleDeleteLog(log.id)}><Trash2 size={16} /></button>
+                                                <td data-label="Status">{getStatusBadge(log.status)}</td>
+                                                <td className="text-end px-4" data-label="Operations">
+                                                    <div className="btn-group shadow-sm rounded-pill overflow-hidden border">
+                                                        <button className="btn btn-sm btn-white text-muted hov-bg-primary hov-text-white border-0" title="Deep Audit" data-bs-toggle="modal" data-bs-target="#qaEvaluationModal" onClick={() => setSelectedLog(log)}><Headphones size={16} /></button>
+                                                        <button className="btn btn-sm btn-white text-muted hov-bg-warning hov-text-dark border-0" title="Adjust Parameters" data-bs-toggle="modal" data-bs-target="#editScoreModal" onClick={() => { setSelectedLog(log); setCalibrationScore(log.score); }}><Award size={16} /></button>
+                                                        <button className="btn btn-sm btn-white text-muted hov-bg-danger hov-text-white border-0 text-danger" title="Purge Record" onClick={() => handleDeleteLog(log.id)}><Trash2 size={16} /></button>
                                                     </div>
                                                 </td>
                                             </tr>

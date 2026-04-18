@@ -1,13 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
 const Account = () => {
     const [activeTab, setActiveTab] = useState('profile');
-
-    useEffect(() => {
-        if (window.lucide) {
-            window.lucide.createIcons();
-        }
-    }, [activeTab]);
 
     return (
         <>

@@ -124,3 +124,102 @@ body {
     background-color: #fff8eb !important;
     color: #ffc107 !important;
 }
+
+/* RESPONSIVE & MOBILE OPTIMIZATION */
+@media (max-width: 991.98px) {
+    .app-header {
+        height: 70px !important;
+    }
+    
+    .app-page-title {
+        font-size: 1.5rem !important;
+    }
+
+    .stats-figure {
+        font-size: 1.25rem !important;
+    }
+
+    .app-card-body {
+        padding: 1.25rem !important;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .app-page-title {
+        font-size: 1.25rem !important;
+    }
+
+    .btn-responsive {
+        width: 100%;
+        margin-bottom: 0.5rem;
+    }
+
+    .app-card-stat .stats-figure {
+        font-size: 1.1rem !important;
+    }
+
+    .table-responsive {
+        border: 0;
+    }
+
+    /* Mobile Table Optimization */
+    .table thead {
+        display: none; /* Consider using data-labels if needed, but for now just compacting */
+    }
+
+    .table tr {
+        display: block;
+        margin-bottom: 1rem;
+        border: 1px solid #edf0f5;
+        border-radius: 8px;
+        background: #fff;
+    }
+
+    .table td {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.75rem 1rem !important;
+        border: none !important;
+        border-bottom: 1px solid #f8f9fa !important;
+    }
+
+    .table td::before {
+        content: attr(data-label);
+        font-weight: 700;
+        text-transform: uppercase;
+        font-size: 0.65rem;
+        color: #94a3b8;
+    }
+}
+
+/* Glassmorphism Sidebar Backdrop */
+.sidepanel-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(4px);
+    z-index: 1035;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+.sidepanel-visible .sidepanel-backdrop {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Improved Touch Targets */
+.btn-action, .nav-link {
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+}
+
+.app-table-hover tr:hover {
+    background-color: rgba(155, 125, 61, 0.02) !important;
+}

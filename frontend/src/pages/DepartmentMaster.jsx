@@ -1,14 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
 const DepartmentMaster = () => {
     const [selectedDept, setSelectedDept] = useState(null);
     const [editMode, setEditMode] = useState(false);
-
-    useEffect(() => {
-        if (window.lucide) {
-            window.lucide.createIcons();
-        }
-    }, [selectedDept, editMode]);
 
     const [departments, setDepartments] = useState([
         { code: 'DEPT-CALL-01', name: 'Call Center - Inbound', head: 'Rajesh Kumar', staff: 45, budget: '₹12.5L', status: 'Active' },
@@ -113,18 +107,18 @@ const DepartmentMaster = () => {
                         </thead>
                         <tbody>
                             {departments.map((dept, idx) => (
-                                <tr key={idx}>
-                                    <td className="px-3"><span className="badge bg-soft-secondary text-dark font-monospace border">{dept.code}</span></td>
-                                    <td className="fw-bold text-dark">{dept.name}</td>
-                                    <td>{dept.head}</td>
-                                    <td><span className="badge bg-soft-primary text-primary px-3">{dept.staff} Members</span></td>
-                                    <td className="fw-semibold text-dark">{dept.budget}</td>
-                                    <td><span className={`badge ${dept.status === 'Active' ? 'bg-soft-success text-success' : 'bg-soft-warning text-warning'} border px-3`}>{dept.status.toUpperCase()}</span></td>
-                                    <td className="text-end px-3">
-                                        <div className="btn-group">
-                                            <button className="btn btn-sm btn-action btn-view" title="Inspect Unit" data-bs-toggle="modal" data-bs-target="#deptModal" onClick={() => openDeptModal(dept, 'view')}><i className="fa-solid fa-binoculars"></i></button>
-                                            <button className="btn btn-sm btn-action btn-edit" title="Modify Configuration" data-bs-toggle="modal" data-bs-target="#deptModal" onClick={() => openDeptModal(dept, 'edit')}><i className="fa-solid fa-pen-ruler"></i></button>
-                                            <button className="btn btn-sm btn-action btn-delete" title="Decommission Unit" onClick={() => handleDeleteDept(dept.code)}><i className="fa-solid fa-trash-can"></i></button>
+                                <tr key={idx} className="transition-all hov-bg-light">
+                                    <td className="px-3" data-label="Code"><span className="badge bg-soft-secondary text-dark font-monospace border">{dept.code}</span></td>
+                                    <td className="fw-bold text-dark" data-label="Unit">{dept.name}</td>
+                                    <td data-label="Head">{dept.head}</td>
+                                    <td data-label="Staff"><span className="badge bg-soft-primary text-primary px-3">{dept.staff} Members</span></td>
+                                    <td className="fw-semibold text-dark" data-label="Budget">{dept.budget}</td>
+                                    <td data-label="Lifecycle"><span className={`badge ${dept.status === 'Active' ? 'bg-soft-success text-success' : 'bg-soft-warning text-warning'} border px-3`}>{dept.status.toUpperCase()}</span></td>
+                                    <td className="text-end px-3" data-label="Manage">
+                                        <div className="btn-group shadow-sm rounded-pill overflow-hidden border">
+                                            <button className="btn btn-sm btn-white text-muted hov-bg-primary hov-text-white border-0" title="Inspect Unit" data-bs-toggle="modal" data-bs-target="#deptModal" onClick={() => openDeptModal(dept, 'view')}><i className="fa-solid fa-binoculars"></i></button>
+                                            <button className="btn btn-sm btn-white text-muted hov-bg-dark hov-text-white border-0" title="Modify Configuration" data-bs-toggle="modal" data-bs-target="#deptModal" onClick={() => openDeptModal(dept, 'edit')}><i className="fa-solid fa-pen-ruler"></i></button>
+                                            <button className="btn btn-sm btn-white text-muted hov-bg-danger hov-text-white border-0 text-danger" title="Decommission Unit" onClick={() => handleDeleteDept(dept.code)}><i className="fa-solid fa-trash-can"></i></button>
                                         </div>
                                     </td>
                                 </tr>

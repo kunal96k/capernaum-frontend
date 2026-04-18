@@ -1,14 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
 const DailyReportUpload = () => {
     const [selectedReport, setSelectedReport] = useState(null);
     const [editMode, setEditMode] = useState(false);
-
-    useEffect(() => {
-        if (window.lucide) {
-            window.lucide.createIcons();
-        }
-    }, [selectedReport, editMode]);
 
     const stats = [
         { label: 'Cumulative Output', value: '42', meta: 'Calls Handled Today', target: 'Target: 40', color: 'blue' },

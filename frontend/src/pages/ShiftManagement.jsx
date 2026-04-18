@@ -1,15 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
 const ShiftManagement = () => {
     const [selectedShift, setSelectedShift] = useState(null);
     const [selectedAssignment, setSelectedAssignment] = useState(null);
     const [editMode, setEditMode] = useState(false);
-
-    useEffect(() => {
-        if (window.lucide) {
-            window.lucide.createIcons();
-        }
-    }, [selectedShift, selectedAssignment, editMode]);
 
     const [assignments, setAssignments] = useState([
         { id: 'EMP001', name: 'Rajesh Kumar', dept: 'Call Center - Inbound', shift: 'Morning (06:00-14:00)', date: '01-Jan-2024', status: 'Active' },
@@ -141,18 +135,18 @@ const ShiftManagement = () => {
                         <tbody>
                             {assignments.map((asgn, idx) => (
                                 <tr key={idx}>
-                                    <td className="px-3"><span className="badge bg-soft-secondary text-dark font-monospace border">{asgn.id}</span></td>
-                                    <td className="fw-bold text-dark">{asgn.name}</td>
-                                    <td className="small">{asgn.dept}</td>
-                                    <td><span className={`badge ${asgn.shift.includes('Morning') ? 'bg-soft-info text-info' : asgn.shift.includes('Afternoon') ? 'bg-soft-warning text-warning' : 'bg-soft-danger text-danger'} border px-3`}>{asgn.shift.toUpperCase()}</span></td>
-                                    <td className="small text-muted">{asgn.date}</td>
-                                        <td className="text-end px-3">
-                                            <div className="btn-group">
-                                                <button className="btn btn-sm btn-action btn-view" title="Inspect Assignment" data-bs-toggle="modal" data-bs-target="#assignmentModal" onClick={() => { setSelectedAssignment(asgn); setEditMode(false); }}><i className="fa-solid fa-user-gear"></i></button>
-                                                <button className="btn btn-sm btn-action btn-edit" title="Modify Duty" data-bs-toggle="modal" data-bs-target="#assignmentModal" onClick={() => { setSelectedAssignment(asgn); setEditMode(true); }}><i className="fa-solid fa-clock-rotate-left"></i></button>
-                                                <button className="btn btn-sm btn-action btn-delete" title="Revoke Assignment" onClick={() => handleRevoke(asgn.id)}><i className="fa-solid fa-user-minus"></i></button>
-                                            </div>
-                                        </td>
+                                    <td className="px-3" data-label="UID"><span className="badge bg-soft-secondary text-dark font-monospace border">{asgn.id}</span></td>
+                                    <td className="fw-bold text-dark" data-label="Personnel">{asgn.name}</td>
+                                    <td className="small" data-label="Unit">{asgn.dept}</td>
+                                    <td data-label="Cycle"><span className={`badge ${asgn.shift.includes('Morning') ? 'bg-soft-info text-info' : asgn.shift.includes('Afternoon') ? 'bg-soft-warning text-warning' : 'bg-soft-danger text-danger'} border px-3`}>{asgn.shift.toUpperCase()}</span></td>
+                                    <td className="small text-muted" data-label="Date">{asgn.date}</td>
+                                    <td className="text-end px-3" data-label="Manage">
+                                        <div className="btn-group shadow-sm rounded-pill overflow-hidden border">
+                                            <button className="btn btn-sm btn-white text-muted hov-bg-primary hov-text-white border-0" title="Inspect Assignment" data-bs-toggle="modal" data-bs-target="#assignmentModal" onClick={() => { setSelectedAssignment(asgn); setEditMode(false); }}><i className="fa-solid fa-user-gear"></i></button>
+                                            <button className="btn btn-sm btn-white text-muted hov-bg-warning hov-text-dark border-0" title="Modify Duty" data-bs-toggle="modal" data-bs-target="#assignmentModal" onClick={() => { setSelectedAssignment(asgn); setEditMode(true); }}><i className="fa-solid fa-clock-rotate-left"></i></button>
+                                            <button className="btn btn-sm btn-white text-muted hov-bg-danger hov-text-white border-0 text-danger" title="Revoke Assignment" onClick={() => handleRevoke(asgn.id)}><i className="fa-solid fa-user-minus"></i></button>
+                                        </div>
+                                    </td>
                                 </tr>
                             ))}
                         </tbody>

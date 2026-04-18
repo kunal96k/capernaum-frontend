@@ -1,16 +1,8 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const Dashboard = () => {
     const navigate = useNavigate();
-    useEffect(() => {
-        if (window.lucide) {
-            window.lucide.createIcons();
-        }
-        
-        // Initialize Charts if they exist in the legacy scripts
-        // In a real React app, we'd use react-chartjs-2
-    }, []);
 
     return (
         <>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
 const Notifications = () => {
     const [filter, setFilter] = useState('all');
@@ -10,12 +10,6 @@ const Notifications = () => {
         { id: 5, type: 'system', title: 'Monthly Report Generated', message: 'January 2024 monthly performance report has been generated and is available.', time: '1 day ago', unread: false },
         { id: 6, type: 'activity', title: 'QA Review Completed', message: 'Quality Assurance review for Call Center team completed. Average score: 87/100.', time: '1 day ago', unread: false }
     ]);
-
-    useEffect(() => {
-        if (window.lucide) {
-            window.lucide.createIcons();
-        }
-    }, [filter, notifications]);
 
     const stats = [
         { label: 'Unread Signals', value: notifications.filter(n => n.unread).length, color: 'blue', meta: 'New notifications' },

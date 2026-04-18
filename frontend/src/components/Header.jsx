@@ -12,12 +12,6 @@ import {
 } from 'lucide-react';
 
 const Header = ({ onToggleSidebar }) => {
-    useEffect(() => {
-        if (window.lucide) {
-            window.lucide.createIcons();
-        }
-    }, []);
-
     return (
         <header className="app-header fixed-top">
             <div className="app-header-inner">

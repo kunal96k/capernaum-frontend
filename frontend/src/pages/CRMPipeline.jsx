@@ -215,27 +215,27 @@ const CRMPipeline = () => {
                                     </thead>
                                     <tbody>
                                         {crmLeads.map(lead => (
-                                            <tr key={lead.id}>
-                                                <td className="px-4 py-3">
+                                            <tr key={lead.id} className="transition-all hov-bg-light">
+                                                <td className="px-4 py-3" data-label="Entity">
                                                     <div className="fw-bold text-dark">{lead.company}</div>
-                                                    <div className="text-muted small">UID: L-{String(lead.id).padStart(4, '0')}</div>
+                                                    <div className="text-muted font-monospace" style={{fontSize: '0.65rem'}}>UID: L-{String(lead.id).padStart(4, '0')}</div>
                                                 </td>
-                                                <td className="px-4 py-3 align-middle">{lead.contact}</td>
-                                                <td className="px-4 py-3 align-middle font-monospace small">{lead.phone}</td>
-                                                <td className="px-4 py-3 align-middle">
+                                                <td className="px-4 py-3 align-middle" data-label="Contact">{lead.contact}</td>
+                                                <td className="px-4 py-3 align-middle font-monospace small" data-label="Telemetry">{lead.phone}</td>
+                                                <td className="px-4 py-3 align-middle" data-label="Source">
                                                     <span className={`kanban-source-tag ${lead.sourceTag}`}>{lead.source}</span>
                                                 </td>
-                                                <td className="px-4 py-3 align-middle">
+                                                <td className="px-4 py-3 align-middle" data-label="Stage">
                                                     <span className={`badge border shadow-sm px-3 py-2 rounded-pill font-weight-bold text-uppercase bg-white text-dark`} style={{ fontSize: '0.65rem' }}>
                                                         <i className={`fa-solid fa-circle me-2 x-small text-${lead.stage === 'Closed' ? 'success' : lead.stage === 'Negotiation' ? 'warning' : 'primary'}`}></i>
                                                         {lead.stage}
                                                     </span>
                                                 </td>
-                                                <td className="px-4 py-3 text-end align-middle">
-                                                    <div className="btn-group shadow-sm rounded-pill">
-                                                        <button className="btn btn-sm btn-action btn-view" title="Detailed Insight" data-bs-toggle="modal" data-bs-target="#leadModal" onClick={() => openLeadModal(lead, 'view')}><Eye size={16} /></button>
-                                                        <button className="btn btn-sm btn-action btn-edit" title="Modify Record" data-bs-toggle="modal" data-bs-target="#leadModal" onClick={() => openLeadModal(lead, 'edit')}><Pencil size={16} /></button>
-                                                        <button className="btn btn-sm btn-action btn-delete" title="Purge Lead" onClick={() => handleDeleteLead(lead.id)}><Trash2 size={16} /></button>
+                                                <td className="px-4 py-3 text-end align-middle" data-label="Control">
+                                                    <div className="btn-group shadow-sm rounded-pill overflow-hidden border">
+                                                        <button className="btn btn-sm btn-white text-muted hov-bg-primary hov-text-white border-0" title="Detailed Insight" data-bs-toggle="modal" data-bs-target="#leadModal" onClick={() => openLeadModal(lead, 'view')}><Eye size={16} /></button>
+                                                        <button className="btn btn-sm btn-white text-muted hov-bg-dark hov-text-white border-0" title="Modify Record" data-bs-toggle="modal" data-bs-target="#leadModal" onClick={() => openLeadModal(lead, 'edit')}><Pencil size={16} /></button>
+                                                        <button className="btn btn-sm btn-white text-muted hov-bg-danger hov-text-white border-0 text-danger" title="Purge Lead" onClick={() => handleDeleteLead(lead.id)}><Trash2 size={16} /></button>
                                                     </div>
                                                 </td>
                                             </tr>

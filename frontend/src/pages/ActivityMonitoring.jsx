@@ -15,10 +15,6 @@ const ActivityMonitoring = () => {
     ]);
 
     useEffect(() => {
-        if (window.lucide) {
-            window.lucide.createIcons();
-        }
-
         // Simulate Live Feed
         const interval = setInterval(() => {
             const types = [

@@ -1,74 +1,97 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { NavLink, Link } from 'react-router-dom';
+import { 
+    LayoutDashboard, 
+    Bell, 
+    Building, 
+    Link as LinkIcon, 
+    Users, 
+    Key, 
+    Cpu, 
+    Target, 
+    Headphones, 
+    BarChart3, 
+    Database, 
+    UserPlus, 
+    GitPullRequest, 
+    Shield, 
+    Clock, 
+    Activity, 
+    FileUp, 
+    Radar, 
+    Microscope, 
+    Sliders, 
+    UserCog, 
+    Settings, 
+    HelpCircle, 
+    LogOut,
+    ChevronDown,
+    Minus,
+    Fingerprint
+} from 'lucide-react';
 
 const Sidebar = ({ isOpen, setSidebarOpen }) => {
-    useEffect(() => {
-        if (window.lucide) {
-            window.lucide.createIcons();
-        }
-    }, []);
-
     const menuItems = [
         { header: 'Main Architecture' },
-        { path: '/dashboard', label: 'Command Dashboard', icon: 'layout-dashboard' },
-        { path: '/notifications', label: 'Signal Stream', icon: 'bell' },
+        { path: '/dashboard', label: 'Command Dashboard', icon: LayoutDashboard },
+        { path: '/notifications', label: 'Signal Stream', icon: Bell },
 
         { header: 'Enterprise Client Hub' },
         {
             label: 'Client Ecosystem',
-            icon: 'building',
+            icon: Building,
             submenu: [
-                { path: '/client-linkage', label: 'Linkage Matrix', icon: 'link' },
-                { path: '/client-portal', label: 'Client Management', icon: 'users' },
-                { path: '/client-credentials', label: 'Access Control', icon: 'key' }
+                { path: '/client-linkage', label: 'Linkage Matrix', icon: LinkIcon },
+                { path: '/client-portal', label: 'Client Management', icon: Users },
+                { path: '/client-credentials', label: 'Access Control', icon: Key }
             ]
         },
 
         { header: 'Operational Excellence' },
         {
             label: 'BPO Operations',
-            icon: 'cpu',
+            icon: Cpu,
             submenu: [
-                { path: '/crm-pipeline', label: 'CRM Pipeline', icon: 'target' },
-                { path: '/qa-hub', label: 'QA Forensic Hub', icon: 'headphones' },
-                { path: '/employee-performance', label: 'Performance Analytics', icon: 'bar-chart-3' },
-                { path: '/data-vault', label: 'Secure Data Vault', icon: 'database' }
+                { path: '/crm-pipeline', label: 'CRM Pipeline', icon: Target },
+                { path: '/qa-hub', label: 'QA Forensic Hub', icon: Headphones },
+                { path: '/employee-performance', label: 'Performance Analytics', icon: BarChart3 },
+                { path: '/data-vault', label: 'Secure Data Vault', icon: Database }
             ]
         },
 
         { header: 'Institutional Repository' },
         {
             label: 'Master Data',
-            icon: 'database',
+            icon: Database,
             submenu: [
-                { path: '/employee-master', label: 'Personnel Master', icon: 'user-plus' },
-                { path: '/department-master', label: 'Departmental Master', icon: 'git-pull-request' },
-                { path: '/role-master', label: 'Role & Permission Matrix', icon: 'shield' },
-                { path: '/shift-management', label: 'Shift Orchestration', icon: 'clock' }
+                { path: '/employee-master', label: 'Personnel Master', icon: UserPlus },
+                { path: '/department-master', label: 'Departmental Master', icon: GitPullRequest },
+                { path: '/role-master', label: 'Role & Permission Matrix', icon: Shield },
+                { path: '/shift-management', label: 'Shift Orchestration', icon: Clock }
             ]
         },
 
         { header: 'Operational Intelligence' },
         {
             label: 'Logs & Activity',
-            icon: 'activity',
+            icon: Activity,
             submenu: [
-                { path: '/daily-report-upload', label: 'Performance Ledger', icon: 'file-up' },
-                { path: '/activity-monitoring', label: 'Live Activity Trace', icon: 'radar' },
-                { path: '/audit-logs', label: 'Forensic Audit Trails', icon: 'microscope' }
+                { path: '/daily-report-upload', label: 'Performance Ledger', icon: FileUp },
+                { path: '/activity-monitoring', label: 'Live Activity Trace', icon: Radar },
+                { path: '/audit-logs', label: 'Forensic Audit Trails', icon: Microscope }
             ]
         },
 
         { header: 'Core Logic & Security' },
         {
             label: 'System Admin',
-            icon: 'sliders',
+            icon: Sliders,
             submenu: [
-                { path: '/account', label: 'Identity Settings', icon: 'user-cog' },
-                { path: '/system-settings', label: 'Global Parameters', icon: 'settings' }
+                { path: '/account', label: 'Identity Settings', icon: UserCog },
+                { path: '/system-settings', label: 'Global Parameters', icon: Settings }
             ]
         },
-        { path: '/help', label: 'Intelligence Support', icon: 'help-circle' }
+        { path: '/help', label: 'Intelligence Support', icon: HelpCircle }
     ];
 
     return (
@@ -89,7 +112,7 @@ const Sidebar = ({ isOpen, setSidebarOpen }) => {
                         </div>
                     </div>
                     <Link to="/account" className="profile-shortcut d-block small text-primary fw-bold text-decoration-none hov-translate-right transition-all">
-                        <i className="fa-solid fa-fingerprint me-2 text-warning"></i>Expand Identity Profile
+                        <Fingerprint size={16} className="me-2 text-warning" />Expand Identity Profile
                     </Link>
                 </div>
 
@@ -105,19 +128,22 @@ const Sidebar = ({ isOpen, setSidebarOpen }) => {
                                 return (
                                     <li className="nav-item has-submenu" key={idx}>
                                         <a className="nav-link submenu-toggle transition-all" href="#" data-bs-toggle="collapse" data-bs-target={`#${submenuId}`} aria-expanded="false">
-                                            <span className="nav-icon"><i data-lucide={item.icon} style={{ width: 18, height: 18 }}></i></span>
+                                            <span className="nav-icon"><item.icon size={18} /></span>
                                             <span className="nav-link-text ms-1 fw-medium">{item.label}</span>
-                                            <span className="submenu-arrow ms-auto opacity-50"><i className="fa-solid fa-chevron-down x-small"></i></span>
+                                            <span className="submenu-arrow ms-auto opacity-50"><ChevronDown size={14} /></span>
                                         </a>
                                         <div id={submenuId} className="collapse submenu shadow-inner bg-light bg-opacity-50 mx-2 rounded-3" data-bs-parent="#menu-accordion">
                                             <ul className="submenu-list list-unstyled p-2">
-                                                {item.submenu.map((sub, sIdx) => (
-                                                    <li className="submenu-item" key={sIdx}>
-                                                        <NavLink className={({ isActive }) => `submenu-link small d-block py-2 px-3 rounded-2 text-decoration-none transition-all ${isActive ? 'active fw-bold text-primary bg-white shadow-sm' : 'text-muted'}`} to={sub.path}>
-                                                            <i data-lucide={sub.icon || 'minus'} className="me-2 opacity-50" style={{ width: 14, height: 14 }}></i>{sub.label}
-                                                        </NavLink>
-                                                    </li>
-                                                ))}
+                                                {item.submenu.map((sub, sIdx) => {
+                                                    const SubIcon = sub.icon || Minus;
+                                                    return (
+                                                        <li className="submenu-item" key={sIdx}>
+                                                            <NavLink className={({ isActive }) => `submenu-link small d-block py-2 px-3 rounded-2 text-decoration-none transition-all ${isActive ? 'active fw-bold text-primary bg-white shadow-sm' : 'text-muted'}`} to={sub.path}>
+                                                                <SubIcon size={14} className="me-2 opacity-50" />{sub.label}
+                                                            </NavLink>
+                                                        </li>
+                                                    );
+                                                })}
                                             </ul>
                                         </div>
                                     </li>
@@ -127,7 +153,7 @@ const Sidebar = ({ isOpen, setSidebarOpen }) => {
                             return (
                                 <li className="nav-item" key={idx}>
                                     <NavLink className={({ isActive }) => `nav-link transition-all ${isActive ? 'active bg-soft-primary text-primary fw-bold border-start border-3 border-primary shadow-xs' : 'text-muted'}`} to={item.path}>
-                                        <span className="nav-icon"><i data-lucide={item.icon} style={{ width: 18, height: 18 }}></i></span>
+                                        <span className="nav-icon"><item.icon size={18} /></span>
                                         <span className="nav-link-text ms-1 fw-medium">{item.label}</span>
                                     </NavLink>
                                 </li>
@@ -141,7 +167,7 @@ const Sidebar = ({ isOpen, setSidebarOpen }) => {
                         <ul className="app-menu footer-menu list-unstyled mb-0">
                             <li className="nav-item">
                                 <a className="nav-link py-2 hov-text-danger transition-all" href="#" onClick={() => confirm('Terminate administrative session?') && (window.location.href = '/login')}>
-                                    <span className="nav-icon"><i data-lucide="log-out" style={{ width: 18, height: 18 }}></i></span>
+                                    <span className="nav-icon"><LogOut size={18} /></span>
                                     <span className="nav-link-text ms-1 fw-bold text-uppercase small" style={{ letterSpacing: '0.5px' }}>Shutdown Session</span>
                                 </a>
                             </li>

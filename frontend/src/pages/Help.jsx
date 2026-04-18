@@ -1,12 +1,6 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 
 const Help = () => {
-    useEffect(() => {
-        if (window.lucide) {
-            window.lucide.createIcons();
-        }
-    }, []);
-
     const faqSections = [
         {
             title: 'Infrastructure & CRM Pipeline',
@@ -56,7 +50,7 @@ const Help = () => {
             {/* Support Hero Banner */}
             <div className="app-card shadow-lg mb-5 border-0 overflow-hidden" style={{borderRadius: 15}}>
                 <div className="app-card-body p-5 bg-dark text-white position-relative">
-                    <div className="position-absolute top-0 end-0 p-4 opacity-10">
+                    <div className="position-absolute top-0 end-0 p-4 opacity-10 d-none d-md-block">
                         <i className="fa-solid fa-headset" style={{fontSize: '10rem'}}></i>
                     </div>
                     <div className="position-relative">

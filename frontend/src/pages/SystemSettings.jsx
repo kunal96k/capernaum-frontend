@@ -1,13 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
 const SystemSettings = () => {
     const [activeTab, setActiveTab] = useState('general');
-
-    useEffect(() => {
-        if (window.lucide) {
-            window.lucide.createIcons();
-        }
-    }, [activeTab]);
 
     return (
         <>
@@ -56,7 +50,7 @@ const SystemSettings = () => {
                 {/* Content Matrix */}
                 <div className="col-12 col-lg-9">
                     <div className="tab-content shadow-lg p-5 bg-white rounded-4 border-0 position-relative overflow-hidden">
-                        <div className="position-absolute top-0 end-0 p-4 opacity-10">
+                        <div className="position-absolute top-0 end-0 p-4 opacity-10 d-none d-md-block">
                             <i className="fa-solid fa-gears" style={{fontSize: '8rem'}}></i>
                         </div>
 

@@ -1,14 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
 const RoleMaster = () => {
     const [selectedRole, setSelectedRole] = useState(null);
     const [editMode, setEditMode] = useState(false);
-
-    useEffect(() => {
-        if (window.lucide) {
-            window.lucide.createIcons();
-        }
-    }, [selectedRole, editMode]);
 
     const roles = [
         { name: 'Super Admin', type: 'System', members: 1, permissions: ['Full System Access', 'User Management', 'Reports & Analytics', 'Audit Access'], color: 'danger' },

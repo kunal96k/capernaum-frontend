@@ -121,10 +121,10 @@ const EmployeeMaster = () => {
 
             {/* Registry Table */}
             <div className="app-card app-card-table shadow-sm mb-4 overflow-hidden border-0">
-                <div className="app-card-header p-4 border-bottom bg-white d-flex justify-content-between align-items-center">
-                    <h4 className="app-card-title mb-0 d-flex align-items-center"><Contact size={20} className="me-2 text-muted" />Personnel Master Index</h4>
-                    <div className="d-flex gap-2">
-                         <div className="search-box position-relative">
+                <div className="app-card-header p-4 border-bottom bg-white d-flex flex-wrap justify-content-between align-items-center gap-3">
+                    <h4 className="app-card-title mb-0 d-flex align-items-center"><Contact size={20} className="me-2 text-muted flex-shrink-0" />Personnel Master Index</h4>
+                    <div className="d-flex flex-wrap gap-2 flex-grow-1 justify-content-end">
+                         <div className="search-box position-relative flex-grow-1" style={{ maxWidth: '300px' }}>
                             <Search size={16} className="position-absolute translate-middle-y top-50 ms-3 text-muted" />
                             <input type="text" className="form-control ps-5 rounded-pill border-light shadow-inner" placeholder="Search Identity..." onChange={(e) => setSearchTerm(e.target.value)} />
                         </div>
@@ -146,7 +146,7 @@ const EmployeeMaster = () => {
                         <tbody>
                             {employees.filter(e => e.name.toLowerCase().includes(searchTerm.toLowerCase())).map((emp) => (
                                 <tr key={emp.id}>
-                                    <td className="px-4 py-3">
+                                    <td className="px-4 py-3" data-label="Identity">
                                         <div className="d-flex align-items-center">
                                             <div className="user-avatar-sm rounded-3 d-flex align-items-center justify-content-center me-3 bg-soft-primary text-primary fw-bold" style={{width: 42, height: 42, fontSize: '0.85rem'}}>{emp.init}</div>
                                             <div>
@@ -155,21 +155,21 @@ const EmployeeMaster = () => {
                                             </div>
                                         </div>
                                     </td>
-                                    <td>
+                                    <td data-label="Auth Hub">
                                         <div className="small text-muted d-flex align-items-center"><Mail size={12} className="me-2 opacity-50" />{emp.email}</div>
                                     </td>
-                                    <td><span className="badge bg-light text-dark border px-3 py-1 rounded-pill small fw-semibold">{emp.role}</span></td>
-                                    <td>
+                                    <td data-label="Role"><span className="badge bg-light text-dark border px-3 py-1 rounded-pill small fw-semibold">{emp.role}</span></td>
+                                    <td data-label="Unit">
                                         <div className="fw-semibold text-dark small">{emp.dept}</div>
-                                        <div className="extra-small text-muted">Joined {emp.joined}</div>
+                                        <div className="extra-small text-muted font-monospace" style={{fontSize: '0.6rem'}}>Joined {emp.joined}</div>
                                     </td>
-                                    <td>{getStatusBadge(emp.status)}</td>
-                                    <td className="text-end px-4 py-3">
-                                        <div className="btn-group shadow-sm rounded-pill">
-                                            <button className="btn btn-sm btn-action btn-view" title="Detailed Intel" data-bs-toggle="modal" data-bs-target="#viewEmployeeModal" onClick={() => setSelectedEmployee(emp)}><Contact size={16} /></button>
-                                            <button className="btn btn-sm btn-action btn-edit" title="Modify Record" data-bs-toggle="modal" data-bs-target="#editEmployeeModal" onClick={() => setSelectedEmployee(emp)}><UserCog size={16} /></button>
-                                            <button className="btn btn-sm btn-action btn-warning" title="Security Reset" data-bs-toggle="modal" data-bs-target="#resetPasswordModal" onClick={() => setSelectedEmployee(emp)}><Key size={16} /></button>
-                                            <button className="btn btn-sm btn-action btn-delete text-danger" title="Expunge Member" onClick={() => handleDelete(emp.id)}><UserMinus size={16} /></button>
+                                    <td data-label="Status">{getStatusBadge(emp.status)}</td>
+                                    <td className="text-end px-4 py-3" data-label="Actions">
+                                        <div className="btn-group shadow-sm rounded-pill overflow-hidden border">
+                                            <button className="btn btn-sm btn-white text-muted hov-bg-primary hov-text-white border-0" title="Detailed Intel" data-bs-toggle="modal" data-bs-target="#viewEmployeeModal" onClick={() => setSelectedEmployee(emp)}><Contact size={16} /></button>
+                                            <button className="btn btn-sm btn-white text-muted hov-bg-dark hov-text-white border-0" title="Modify Record" data-bs-toggle="modal" data-bs-target="#editEmployeeModal" onClick={() => setSelectedEmployee(emp)}><UserCog size={16} /></button>
+                                            <button className="btn btn-sm btn-white text-muted hov-bg-warning hov-text-dark border-0" title="Security Reset" data-bs-toggle="modal" data-bs-target="#resetPasswordModal" onClick={() => setSelectedEmployee(emp)}><Key size={16} /></button>
+                                            <button className="btn btn-sm btn-white text-muted hov-bg-danger hov-text-white border-0 text-danger" title="Expunge Member" onClick={() => handleDelete(emp.id)}><UserMinus size={16} /></button>
                                         </div>
                                     </td>
                                 </tr>

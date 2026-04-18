@@ -1,13 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
 const AuditLogs = () => {
     const [selectedLog, setSelectedLog] = useState(null);
-
-    useEffect(() => {
-        if (window.lucide) {
-            window.lucide.createIcons();
-        }
-    }, [selectedLog]);
 
     const auditLogs = [
         { time: "2026-04-15 10:45:30", user: "Priya Sharma", module: "Daily Reports", action: "create", detail: "Daily report submitted: 42 calls, Avg 3:48, QA Score 92/100, Progress 105%", icon: "fa-file-lines" },
@@ -89,8 +83,8 @@ const AuditLogs = () => {
                             <tbody>
                                 {auditLogs.map((log, idx) => (
                                     <tr key={idx} className="transition-all hov-bg-light">
-                                        <td className="p-3 text-muted small fw-bold font-monospace">{log.time}</td>
-                                        <td className="p-3">
+                                        <td className="p-3 text-muted small fw-bold font-monospace" data-label="Time">{log.time}</td>
+                                        <td className="p-3" data-label="User">
                                             <div className="log-user">
                                                 <div className="avatar-placeholder rounded-circle bg-soft-primary text-primary d-flex align-items-center justify-content-center fw-bold small" style={{ width: 32, height: 32 }}>
                                                     {log.user.charAt(0)}
@@ -98,17 +92,17 @@ const AuditLogs = () => {
                                                 <div className="fw-bold small text-dark">{log.user}</div>
                                             </div>
                                         </td>
-                                        <td className="p-3">
+                                        <td className="p-3" data-label="Module">
                                             <div className="d-flex align-items-center gap-2">
                                                 <div className="module-icon-wrap"><i className={`fa-solid ${log.icon} small`}></i></div>
                                                 <span className="fw-bold small text-muted text-uppercase" style={{ fontSize: '0.65rem' }}>{log.module}</span>
                                             </div>
                                         </td>
-                                        <td className="p-3"><span className={`log-action-badge ${getActionClass(log.action)} shadow-xs`}>{log.action.toUpperCase()}</span></td>
-                                        <td className="p-3"><div className="diff-text shadow-inner bg-light border-0 text-dark opacity-75">{log.detail}</div></td>
-                                        <td className="p-3 text-end">
-                                            <button className="btn btn-sm btn-white border shadow-sm rounded-circle d-flex align-items-center justify-content-center hov-bg-primary hov-text-white transition-all" style={{ width: 36, height: 36 }} onClick={() => setSelectedLog(log)} data-bs-toggle="modal" data-bs-target="#auditDetailModal">
-                                                <i className="fa-solid fa-microscope text-primary hov-text-white" style={{ fontSize: '1rem' }}></i>
+                                        <td className="p-3" data-label="Action"><span className={`log-action-badge ${getActionClass(log.action)} shadow-xs`}>{log.action.toUpperCase()}</span></td>
+                                        <td className="p-3" data-label="Detail"><div className="diff-text shadow-inner bg-light border-0 text-dark opacity-75">{log.detail}</div></td>
+                                        <td className="p-3 text-end" data-label="Inspect">
+                                            <button className="btn btn-sm btn-white border shadow-sm rounded-circle d-flex align-items-center justify-content-center hov-bg-primary hov-text-white ms-auto transition-all" style={{ width: 36, height: 36 }} onClick={() => setSelectedLog(log)} data-bs-toggle="modal" data-bs-target="#auditDetailModal">
+                                                <i className="fa-solid fa-microscope small"></i>
                                             </button>
                                         </td>
                                     </tr>
