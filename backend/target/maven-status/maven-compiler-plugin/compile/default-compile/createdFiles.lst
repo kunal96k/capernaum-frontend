@@ -1,6 +1,0 @@
-com\capernaum\bpo\service\EmployeeService.class
-com\capernaum\bpo\model\Employee.class
-com\capernaum\bpo\controller\EmployeeController.class
-com\capernaum\bpo\DataInitializer.class
-com\capernaum\bpo\BpoApplication.class
-com\capernaum\bpo\repository\EmployeeRepository.class
